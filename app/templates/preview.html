@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ name }} | Xmind2TestCase Preview</title>
+    <link rel="shortcut icon" href="{{ url_for('static',filename='favicon.ico') }}" type="image/x-icon"/>
+    <link rel="stylesheet" type="text/css" media="all" href="{{ url_for('static',filename='css/pure-min.css') }}">
+    <link rel="stylesheet" type="text/css" media="all" href="{{ url_for('static',filename='css/custom.css') }}">
+</head>
+<body>
+<div class="header">
+    <h1>{{ name }} - Preview</h1>
+    <h2>TestSuites: {{ suite_count }} / TestCases: {{ suite | length }}
+        / <a href="{{ url_for("download_xmind_htp",filename= name) }}">Get HTP XLS</a>
+        / <a href="{{ url_for("index") }}">Go Back</a></h2>
+</div>
+<table class="pure-table tests-table">
+    <thead>
+    <tr>
+        <th width="2%">#</th>
+        <th width="8%">用例树目录</th>
+        <th width="15%">用例名称</th>
+        <th width="5%">摘要</th>
+        <th width="5%">前置条件</th>
+        <th width="25%">测试步骤</th>
+        <th width="25%">预期结果</th>
+        <th width="5%">状态</th>
+        <th width="10%">用例类型</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for test in suite[1:] %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ test[1] }}</td>
+            <td>{{ test[2] }}</td>
+            <td>{{ test[3] }}</td>
+            <td>{{ test[4] }}</td>
+            <td>{{ test[5] | replace('\n','<br>') | safe }}</td>
+            <td>{{ test[6] | replace('\n','<br>') | safe }}</td>
+            <td>{{ test[7] }}</td>
+            <td>{{ test[10] }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</body>
+</html>
