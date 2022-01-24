@@ -14,6 +14,9 @@ from xmind2case.utils import get_xmind_testsuites
 def save_file(file):
     """保存文件数据"""
     if file and allowed_file(file.filename):
+        # 这里判断以下 uploads 文件夹是否存在，如果不存在创建
+        if not exists(app.config['UPLOAD_FOLDER']):
+            os.mkdir(app.config['UPLOAD_FOLDER'])
         filename = file.filename
         upload_to = join(app.config['UPLOAD_FOLDER'], filename)
         if exists(upload_to):
