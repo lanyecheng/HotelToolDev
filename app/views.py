@@ -74,7 +74,8 @@ def preview(filename):
         suite_count += len(suite.sub_suites)
 
     testcases = xmind_to_htp_preview(full_path)
-    return render_template('preview.html', name=filename, suite=testcases, suite_count=suite_count)
+    print(testcases)
+    return render_template('preview2.html', name=filename, suite=testcases, suite_count=suite_count)
 
 
 @app.route('/delete_file/<filename>/<int:record_id>')

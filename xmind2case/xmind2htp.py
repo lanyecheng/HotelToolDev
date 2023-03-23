@@ -3,6 +3,7 @@
 
 import logging
 import os.path
+
 import xlwt
 
 from xmind2case.utils import get_xmind_testcase_list, get_absolute_path
@@ -10,6 +11,7 @@ from xmind2case.utils import get_xmind_testcase_list, get_absolute_path
 """
 Convert XMind fie to Htp testcase xlsx file 
 """
+
 
 def set_excel_style():
     """设置表格的样式"""
@@ -50,7 +52,8 @@ def xmind_to_htp_xlsx_file(xmind_file):
     testcases = get_xmind_testcase_list(xmind_file)
     # print('testcases', testcases)
 
-    fileheader = ['用例编号', '用例树目录', '用例名称', '摘要', '前置条件', '测试步骤', '预期结果', '用例等级', '自动化覆盖', '状态', '用例类型']
+    # fileheader_old = ['用例编号', '用例树目录', '用例名称', '摘要', '前置条件', '测试步骤', '预期结果', '用例等级', '自动化覆盖', '状态', '用例类型']
+    fileheader = ['用例目录', '用例名称', '摘要', '前置条件', '用例状态', '用例等级', '用例类型', '测试步骤', '预期结果', '自动化']
     htp_testcase_rows = [fileheader]
     for testcase in testcases:
         row = gen_a_testcase_row(testcase)
@@ -68,17 +71,28 @@ def xmind_to_htp_xlsx_file(xmind_file):
     mysheet = workbook.add_sheet('test')
 
     # 设置单元格列宽
-    mysheet.col(0).width = 256 * 20
-    mysheet.col(1).width = 256 * 30
-    mysheet.col(2).width = 256 * 45
-    mysheet.col(3).width = 256 * 15
-    mysheet.col(4).width = 256 * 25
-    mysheet.col(5).width = 256 * 55
-    mysheet.col(6).width = 256 * 75
-    mysheet.col(7).width = 256 * 10
-    mysheet.col(8).width = 256 * 15
-    mysheet.col(9).width = 256 * 10
-    mysheet.col(10).width = 256 * 30
+    # mysheet.col(0).width = 256 * 20
+    # mysheet.col(1).width = 256 * 30
+    # mysheet.col(2).width = 256 * 45
+    # mysheet.col(3).width = 256 * 15
+    # mysheet.col(4).width = 256 * 25
+    # mysheet.col(5).width = 256 * 55
+    # mysheet.col(6).width = 256 * 75
+    # mysheet.col(7).width = 256 * 10
+    # mysheet.col(8).width = 256 * 15
+    # mysheet.col(9).width = 256 * 10
+    # mysheet.col(10).width = 256 * 30
+
+    mysheet.col(0).width = 256 * 30
+    mysheet.col(1).width = 256 * 45
+    mysheet.col(2).width = 256 * 15
+    mysheet.col(3).width = 256 * 30
+    mysheet.col(4).width = 256 * 15
+    mysheet.col(5).width = 256 * 15
+    mysheet.col(6).width = 256 * 30
+    mysheet.col(7).width = 256 * 55
+    mysheet.col(8).width = 256 * 75
+    mysheet.col(9).width = 256 * 15
 
     # 设置冻结为真
     mysheet.set_panes_frozen('1')
@@ -100,7 +114,8 @@ def xmind_to_htp_preview(xmind_file):
     """Convert XMind fie to Htp testcase xlsx file """
     xmind_file = get_absolute_path(xmind_file)
     testcases = get_xmind_testcase_list(xmind_file)
-    fileheader = ['用例编号', '用例树目录', '用例名称', '摘要', '前置条件', '测试步骤', '预期结果', '用例等级', '自动化覆盖', '状态', '用例类型']
+    # fileheader_old = ['用例编号', '用例树目录', '用例名称', '摘要', '前置条件', '测试步骤', '预期结果', '用例等级', '自动化覆盖', '状态', '用例类型']
+    fileheader = ['用例目录', '用例名称', '摘要', '前置条件', '用例状态', '用例等级', '用例类型', '测试步骤', '预期结果', '自动化']
     htp_testcase_rows = [fileheader]
     for testcase in testcases:
         row = gen_a_testcase_row(testcase)
@@ -108,19 +123,34 @@ def xmind_to_htp_preview(xmind_file):
     return htp_testcase_rows
 
 
+# def gen_a_testcase_row(testcase_dict):
+#     case_number = ''
+#     case_tree = get_case_module(testcase_dict['product']) + '~' +get_case_module(testcase_dict['suite'])
+#     case_title = testcase_dict['name']
+#     case_summary = ''
+#     case_precontion = testcase_dict['preconditions']
+#     case_step, case_expected_result = gen_case_step_and_expected_result(testcase_dict['steps'])
+#     case_priority = gen_case_priority(testcase_dict['importance'])
+#     case_apply_phase = ''
+#     case_state = ''
+#     case_type = gen_case_type(testcase_dict['execution_type'])
+#     row = [case_number, case_tree, case_title, case_summary, case_precontion, case_step, case_expected_result, case_priority, case_apply_phase, case_state, case_type]
+#     return row
+
 def gen_a_testcase_row(testcase_dict):
-    case_number = ''
-    case_tree = get_case_module(testcase_dict['product']) + '~' +get_case_module(testcase_dict['suite'])
+    case_tree = get_case_module(testcase_dict['product']) + '～' + get_case_module(testcase_dict['suite'])
     case_title = testcase_dict['name']
     case_summary = ''
     case_precontion = testcase_dict['preconditions']
-    case_step, case_expected_result = gen_case_step_and_expected_result(testcase_dict['steps'])
-    case_priority = gen_case_priority(testcase_dict['importance'])
-    case_apply_phase = ''
     case_state = ''
+    case_priority = gen_case_priority(testcase_dict['importance'])
     case_type = gen_case_type(testcase_dict['execution_type'])
-    row = [case_number, case_tree, case_title, case_summary, case_precontion, case_step, case_expected_result, case_priority, case_apply_phase, case_state, case_type]
+    case_step, case_expected_result = gen_case_step_and_expected_result(testcase_dict['steps'])
+    case_apply_phase = '功能用例'
+    row = [case_tree, case_title, case_summary, case_precontion, case_state, case_priority, case_type, case_step,
+           case_expected_result, case_apply_phase]
     return row
+
 
 def get_case_module(module_name):
     if module_name:
@@ -135,8 +165,8 @@ def gen_case_step_and_expected_result(steps):
     case_step = ''
     case_expected_result = ''
     for step_dict in steps:
-        case_step += step_dict['actions'].replace('\n', '').strip() + '\n'
-        case_expected_result += step_dict['expectedresults'].replace('\n', '').strip() + '\n'
+        case_step += step_dict['actions'].replace('\n', ' ；').strip() + '\n'
+        case_expected_result += step_dict['expectedresults'].replace('\n', ' ；').strip() + '\n'
         # if step_dict.get('expectedresults', '') else ''
 
     return case_step, case_expected_result
@@ -150,9 +180,16 @@ def gen_case_priority(priority):
         return 'P2'
 
 
+# def gen_case_type(case_type):
+#     mapping = {1: '回归用例', 2: '回归用例、冒烟用例'}
+#     if case_type in mapping.keys():
+#         return mapping[case_type]
+#     else:
+#         return '回归用例'
+
 def gen_case_type(case_type):
-    mapping = {1: '回归用例', 2: '回归用例、冒烟用例'}
+    mapping = {1: '功能用例,回归用例', 2: '冒烟用例,功能用例,回归用例'}
     if case_type in mapping.keys():
         return mapping[case_type]
     else:
-        return '回归用例'
+        return '功能用例,回归用例'
