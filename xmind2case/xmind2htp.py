@@ -165,8 +165,8 @@ def gen_case_step_and_expected_result(steps):
     case_step = ''
     case_expected_result = ''
     for step_dict in steps:
-        case_step += step_dict['actions'].replace('\n', ' ；').strip() + '\n'
-        case_expected_result += step_dict['expectedresults'].replace('\n', ' ；').strip() + '\n'
+        case_step += step_dict['actions'].replace('\n', '').strip() + '\n'
+        case_expected_result += step_dict['expectedresults'].replace('\n', '').strip() + '\n'
         # if step_dict.get('expectedresults', '') else ''
 
     return case_step, case_expected_result
